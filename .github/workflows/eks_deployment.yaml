@@ -47,9 +47,9 @@ jobs:
     working-directory: cluster/
     run: terraform plan -var="k8sVersion=1.27"
   
-   - name: Terraform Apply
-     working-directory: cluster/  
-     run: terraform apply -var="k8sVersion=1.27" -auto-approve
+  - name: Terraform Apply
+    working-directory: cluster/  
+    run: terraform apply -var="k8sVersion=1.27" -auto-approve
         
 
 
