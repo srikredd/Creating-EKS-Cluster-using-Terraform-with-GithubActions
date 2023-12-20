@@ -17,39 +17,36 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
 
-  defaults:
+    defaults:
       run:
         shell: bash
 
-  steps:
-  - name: Checkout
-    uses: actions/checkout@v3
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
 
-  - name: Configure AWS credentails
-    uses: aws-actions/configure-aws-credentials@v2
-    with:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}  
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      aws-region: us-east-1 
+    - name: Configure AWS credentails
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}  
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
 
-  - name: Setup Terraform
-    uses: hashicorp/setup-terraform@v1
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
 
-  - name: Terraform Init 
-    working-directory: cluster/
-    run: terraform init 
+    - name: Terraform Init 
+      working-directory: cluster/
+      run: terraform init -reconfigure 
 
-  - name: Terraform Format
-    working-directory: cluster/
-    run: terraform fmt
+    - name: Terraform Format
+      working-directory: cluster/
+      run: terraform fmt
 
-  - name: Terraform Plan
-    working-directory: cluster/
-    run: terraform plan -var="k8sVersion=1.27"
-  
-  - name: Terraform Apply
-    working-directory: cluster/  
-    run: terraform apply -var="k8sVersion=1.27" -auto-approve
-        
+    - name: Terraform Plan
+      working-directory: cluster/
+      run: terraform plan -var="k8sVersion=1.27"
 
-
+    - name: Terraform Apply
+      working-directory: cluster/  
+      run: terraform apply -var="k8sVersion=1.27" -auto-approve
