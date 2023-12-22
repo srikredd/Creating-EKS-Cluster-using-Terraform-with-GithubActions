@@ -1,59 +1,48 @@
-Introduction:
-
-This document will guide you with step by step work instruction on how to create EKS Cluster using Github Actions. And it will use the Terraform as IAC for the Infrastructure Automation.
+EKS Cluster Creation with GitHub Actions and Terraform
+This guide provides step-by-step instructions on creating an Amazon EKS Cluster using GitHub Actions and Terraform as Infrastructure as Code (IAC).
 
 Prerequisites:
-
-1. AWS Account and Cofigured on the Local Machine
-2. Install the Terraform 
-3. Set the AWS Secret key and Access key in Environment variable in Github
-
+AWS Account: Configure AWS credentials on your local machine.
+Terraform: Install Terraform locally.
+GitHub Actions:
+Set up your AWS Secret Key and Access Key in GitHub Actions environment variables.
 Note:
-
-Do not hard code the Access key and secret key in teraform file.
-
-The creation of EKS Cluster will take multiple steps.
+Avoid hard-coding access keys and secret keys in the Terraform files.
 
 Steps:
-1. Creates S3 Bucket to store the Cluster and VPC terraform tf state
-2. Create VPC in AWS using Terraform
-3. Creating Cluster Infra code 
-4. Creating the pipeline for automation using GithubActions
+1. Create the S3 Bucket
+Create an S3 Bucket to store the Terraform tf state:
+
+bash
+Copy code
+aws s3api create-bucket --bucket YOUR_BUCKET_NAME --region YOUR_REGION
+
+2. Create VPC
+Navigate to the vpc directory and run:
+
+bash
+Copy code
+cd /vpc
+terraform init
+terraform plan
+terraform apply
+
+3. Create Cluster Infrastructure
+Find the cluster infrastructure code in the /cluster directory with the following files:
+
+main.tf: Cluster infrastructure code.
+variables.tf: Variables defined in main.tf.
+backend.tf: Bucket configuration to store the Terraform state.
+
+4. Create Pipeline for Automation
+Find the pipeline configuration in the .github/workflows directory. Here, we use the workflow_dispatch event to manually trigger a workflow run from the GitHub UI.
 
 Tools Required:
-1. AWS Account
-2. Terrform
-3. Github Actions(We can define from Github Itself)
+AWS Account
+Terraform
+GitHub Actions (defined from GitHub itself)
+
+Important:
+The workflow_dispatch event allows manual triggering of a workflow run from the GitHub UI.
 
 
-1. Create the S3 Bucket
-
-   We can create the S3 Bucket by going through the console or by cli also.
-
-   aws s3api create-bucket --bucket YOUR_BUCKET_NAME --region YOUR_REGION
-
-
-2. Creating the VPC
-
-Go to the VPC Folder and Run the below comands.
-    
-    cd /vpc
-    terraform init
-    terraform plan
-    terraform apply 
-
-3. Creating Cluster Infra
- 
-Can find the configuration file in /cluster directory where we have 3 files
- 
-   main.tf        - Cluster Infra code
-   variables.tf   - Variables which were defined in the main.tf file
-   backend.tf     - Bucket confiuration to store the terraform state
-
-4. Creating the pipeline for automation.
-
-Can find the pipeline configuration in the .github/workflows directory
-
-Note:
-
-Here we are using The workflow_dispatch event allows us to manually trigger a workflow run from the GitHub UI.
