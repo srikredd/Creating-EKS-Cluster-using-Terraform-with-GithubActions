@@ -189,7 +189,22 @@ This is a simple voting app showcasing a frontend, an API, and a MongoDB databas
     kubectl exec -it mongo-0 -- mongo langdb --eval "db.languages.find().pretty()"
     ```
 
-## Contributing
+## Note:
 
-Feel free to contribute by opening issues or pull requests. Your feedback is appreciated!
+## API External Access Verification
+
+### Retrieve API Load Balancer Public FQDN
+
+This command retrieves the public fully qualified domain name (FQDN) of the API service's load balancer using `kubectl`. The obtained FQDN will be used to access the API externally.
+
+### Wait for DNS Propagation
+
+This loop checks whether the DNS for the obtained FQDN has propagated successfully. It waits in a loop, checking the DNS resolution using `nslookup`. If the DNS is not yet propagated, it waits for 2 seconds and repeats the process. This step ensures that the DNS records have propagated and are accessible.
+
+### Test API Endpoint
+
+Once DNS propagation is confirmed, the script uses `curl` to send a request to the `/ok` endpoint of the API using the obtained FQDN. This is a simple way to check if the API is accessible externally and responding with an "ok" message. It serves as a verification step to confirm that the API is reachable and functioning as expected.
+
+These steps collectively ensure that the API service's load balancer has a publicly accessible DNS, waits for DNS propagation, and then tests the API endpoint for external accessibility.
+
 
