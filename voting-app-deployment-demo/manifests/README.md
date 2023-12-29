@@ -2,6 +2,17 @@
 
 This is a simple voting app showcasing a frontend, an API, and a MongoDB database. The application allows users to vote for their favorite programming languages.
 
+## Create and Configure Namespace
+
+### Create Namespace
+
+```bash
+kubectl create namespace your-namespace-name
+
+kubectl config set-context --current --namespace=your-namespace-name
+```
+
+
 ## MongoDB Database Setup
 
 1. Create the MongoDB StatefulSet with Persistent Volumes:
